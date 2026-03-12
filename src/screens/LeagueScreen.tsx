@@ -16,9 +16,9 @@ const leaderboardData = [
 ];
 
 const getRankIcon = (rank: number) => {
-  if (rank === 1) return <Crown size={16} className="text-yellow-400" />;
+  if (rank === 1) return <Crown size={16} className="text-accent" />;
   if (rank === 2) return <Medal size={16} className="text-foreground/60" />;
-  if (rank === 3) return <Award size={16} className="text-amber-600" />;
+  if (rank === 3) return <Award size={16} className="text-primary" />;
   return <span className="text-xs font-display tabular-nums text-muted-foreground w-4 text-center">{rank}</span>;
 };
 
