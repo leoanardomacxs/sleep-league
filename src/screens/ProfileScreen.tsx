@@ -1,5 +1,7 @@
 import { motion } from "framer-motion";
-import { Shield, Flame, Star, Zap, Moon, Target } from "lucide-react";
+import { Shield, Flame, Star, Zap, Moon, Target, Settings } from "lucide-react";
+import { useRank } from "@/contexts/RankContext";
+import RankSimulator from "@/components/RankSimulator";
 
 const badges = [
   { name: "Early Bird", icon: "🌅", unlocked: true },
@@ -18,6 +20,8 @@ const stats = [
 ];
 
 const ProfileScreen = () => {
+  const { rank } = useRank();
+
   return (
     <div className="relative z-10 px-5 pt-14 pb-24 max-w-md mx-auto">
       {/* Avatar + Rank */}
@@ -31,18 +35,29 @@ const ProfileScreen = () => {
           <div
             className="w-24 h-24 rounded-full flex items-center justify-center text-3xl font-display text-foreground"
             style={{
-              background: "linear-gradient(135deg, hsl(265 100% 70% / 0.2), hsl(190 100% 65% / 0.2))",
-              boxShadow: "0 0 0 3px hsl(265 100% 70% / 0.3), 0 0 30px hsl(265 100% 70% / 0.15)",
+              background: `linear-gradient(135deg, ${rank.colors.gradientFrom}20, ${rank.colors.gradientTo}20)`,
+              boxShadow: `0 0 0 3px ${rank.colors.gradientFrom}40, 0 0 30px ${rank.colors.gradientFrom}15`,
             }}
           >
             D
           </div>
-          <div className="absolute -bottom-1 -right-1 w-8 h-8 rounded-full bg-primary flex items-center justify-center">
+          <div
+            className="absolute -bottom-1 -right-1 w-8 h-8 rounded-full flex items-center justify-center"
+            style={{ background: rank.colors.gradientFrom }}
+          >
             <Shield size={14} className="text-primary-foreground" />
           </div>
         </div>
         <h1 className="text-xl font-display text-foreground">Dreamer</h1>
-        <p className="text-sm text-primary font-ui">Astral Tier</p>
+        <div className="flex items-center gap-1.5 mt-1">
+          <span className="text-sm">{rank.symbol}</span>
+          <p
+            className="text-sm font-ui font-bold"
+            style={{ color: rank.colors.gradientFrom }}
+          >
+            {rank.name} Tier
+          </p>
+        </div>
       </motion.div>
 
       {/* Stats Grid */}
@@ -53,13 +68,18 @@ const ProfileScreen = () => {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 + i * 0.08, duration: 0.3 }}
-            className="card-dormio p-4 text-center"
+            className="card-dormio p-4 text-center cursor-pointer active:scale-[0.97] transition-transform"
           >
             <stat.icon size={18} className="text-primary mx-auto mb-2" />
             <p className="text-xl font-display tabular-nums text-foreground">{stat.value}</p>
             <p className="text-xs text-muted-foreground font-ui uppercase mt-1">{stat.label}</p>
           </motion.div>
         ))}
+      </div>
+
+      {/* Rank Simulator */}
+      <div className="mb-6">
+        <RankSimulator />
       </div>
 
       {/* Badges */}
@@ -76,7 +96,7 @@ const ProfileScreen = () => {
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.6 + i * 0.06, duration: 0.25 }}
-              className={`card-dormio p-3 flex flex-col items-center gap-2 ${
+              className={`card-dormio p-3 flex flex-col items-center gap-2 cursor-pointer active:scale-[0.95] transition-transform ${
                 !badge.unlocked ? "opacity-30" : ""
               }`}
             >
@@ -96,7 +116,7 @@ const ProfileScreen = () => {
       >
         <h2 className="text-lg font-display text-foreground mb-4">Active Challenges</h2>
         <div className="space-y-3">
-          <div className="card-dormio p-4 flex items-center gap-3">
+          <div className="card-dormio p-4 flex items-center gap-3 cursor-pointer active:scale-[0.98] transition-transform">
             <div className="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center">
               <Target size={18} className="text-accent" />
             </div>
@@ -106,11 +126,14 @@ const ProfileScreen = () => {
               <div className="mt-2 h-1.5 rounded-full bg-surface-elevated overflow-hidden">
                 <div
                   className="h-full rounded-full"
-                  style={{ width: "60%", background: "linear-gradient(90deg, hsl(265 100% 70%), hsl(190 100% 65%))" }}
+                  style={{
+                    width: "60%",
+                    background: `linear-gradient(90deg, ${rank.colors.gradientFrom}, ${rank.colors.gradientTo})`,
+                  }}
                 />
               </div>
             </div>
-            <span className="text-xs font-ui text-accent">+50 SP</span>
+            <span className="text-xs font-ui" style={{ color: rank.colors.gradientFrom }}>+50 SP</span>
           </div>
         </div>
       </motion.div>

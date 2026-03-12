@@ -4,14 +4,22 @@ import { useEffect, useState, useRef } from "react";
 interface SleepScoreRingProps {
   score: number;
   size?: number;
+  rankColors?: {
+    gradientFrom: string;
+    gradientTo: string;
+  };
 }
 
-const SleepScoreRing = ({ score, size = 220 }: SleepScoreRingProps) => {
+const SleepScoreRing = ({ score, size = 220, rankColors }: SleepScoreRingProps) => {
   const [displayScore, setDisplayScore] = useState(0);
   const animationRef = useRef<number>();
   const radius = (size - 16) / 2;
   const circumference = 2 * Math.PI * radius;
   const offset = circumference - (score / 100) * circumference;
+  const gradientId = "scoreGradient";
+
+  const from = rankColors?.gradientFrom || "hsl(265 100% 70%)";
+  const to = rankColors?.gradientTo || "hsl(190 100% 65%)";
 
   useEffect(() => {
     const duration = 1500;
@@ -49,7 +57,7 @@ const SleepScoreRing = ({ score, size = 220 }: SleepScoreRingProps) => {
           cy={size / 2}
           r={radius}
           fill="none"
-          stroke="url(#scoreGradient)"
+          stroke={`url(#${gradientId})`}
           strokeWidth="8"
           strokeLinecap="round"
           strokeDasharray={circumference}
@@ -58,9 +66,9 @@ const SleepScoreRing = ({ score, size = 220 }: SleepScoreRingProps) => {
           transition={{ duration: 1.5, ease: [0.3, 0, 0.2, 1] }}
         />
         <defs>
-          <linearGradient id="scoreGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="hsl(265 100% 70%)" />
-            <stop offset="100%" stopColor="hsl(190 100% 65%)" />
+          <linearGradient id={gradientId} x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor={from} />
+            <stop offset="100%" stopColor={to} />
           </linearGradient>
         </defs>
       </svg>
