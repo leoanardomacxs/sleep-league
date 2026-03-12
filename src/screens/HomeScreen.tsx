@@ -6,9 +6,11 @@ import PointsBreakdown from "../components/PointsBreakdown";
 import StreakBadge from "../components/StreakBadge";
 import RankCard from "../components/RankCard";
 import WakeUpModal from "../components/WakeUpModal";
+import { useRank } from "@/contexts/RankContext";
 
 const HomeScreen = () => {
   const [showWakeUp, setShowWakeUp] = useState(false);
+  const { rank, sp, nextRank, progress } = useRank();
 
   return (
     <div className="relative z-10 px-5 pt-14 pb-24 max-w-md mx-auto">
@@ -24,8 +26,27 @@ const HomeScreen = () => {
           <h1 className="text-2xl font-display text-foreground">Last Night</h1>
         </div>
         <div className="text-right">
+          <div className="flex items-center gap-1.5 justify-end mb-0.5">
+            <span className="text-sm">{rank.symbol}</span>
+            <span
+              className="text-xs font-ui font-bold"
+              style={{ color: rank.colors.gradientFrom }}
+            >
+              {rank.name}
+            </span>
+          </div>
           <p className="text-xs text-muted-foreground font-ui uppercase">Total SP</p>
-          <p className="text-lg font-display tabular-nums gradient-text">2,847</p>
+          <p
+            className="text-lg font-display tabular-nums"
+            style={{
+              background: `linear-gradient(135deg, ${rank.colors.gradientFrom}, ${rank.colors.gradientTo})`,
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text",
+            }}
+          >
+            {sp.toLocaleString()}
+          </p>
         </div>
       </motion.div>
 
@@ -36,7 +57,7 @@ const HomeScreen = () => {
         transition={{ delay: 0.2, duration: 0.5, ease: [0.3, 0, 0.2, 1] }}
         className="flex justify-center mb-8"
       >
-        <SleepScoreRing score={87} />
+        <SleepScoreRing score={87} rankColors={rank.colors} />
       </motion.div>
 
       {/* Points Breakdown */}
@@ -47,7 +68,12 @@ const HomeScreen = () => {
       {/* Streak + Rank */}
       <div className="space-y-3 mb-6">
         <StreakBadge count={7} />
-        <RankCard rank="Astral" sp={2847} nextSp={3500} />
+        <RankCard
+          rank={rank.name}
+          sp={sp}
+          nextSp={nextRank ? nextRank.minSp : sp + 1000}
+          rankColors={rank.colors}
+        />
       </div>
 
       {/* Set Alarm Button */}
@@ -58,7 +84,9 @@ const HomeScreen = () => {
         whileTap={{ scale: 0.97 }}
         onClick={() => setShowWakeUp(true)}
         className="w-full h-14 rounded-full flex items-center justify-center gap-3 font-ui text-sm uppercase text-primary-foreground"
-        style={{ background: "linear-gradient(135deg, hsl(265 100% 70%), hsl(290 80% 60%))" }}
+        style={{
+          background: `linear-gradient(135deg, ${rank.colors.gradientFrom}, ${rank.colors.gradientTo})`,
+        }}
       >
         <AlarmClock size={18} />
         Best Time To Wake Up
