@@ -1,12 +1,40 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useState } from "react";
+import BottomNav from "../components/BottomNav";
+import CosmicBackground from "../components/CosmicBackground";
+import HomeScreen from "../screens/HomeScreen";
+import LeagueScreen from "../screens/LeagueScreen";
+import FeedScreen from "../screens/FeedScreen";
+import ProfileScreen from "../screens/ProfileScreen";
+import { AnimatePresence, motion } from "framer-motion";
 
 const Index = () => {
+  const [activeTab, setActiveTab] = useState("home");
+
+  const renderScreen = () => {
+    switch (activeTab) {
+      case "home": return <HomeScreen />;
+      case "league": return <LeagueScreen />;
+      case "feed": return <FeedScreen />;
+      case "profile": return <ProfileScreen />;
+      default: return <HomeScreen />;
+    }
+  };
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
+    <div className="min-h-screen bg-background overflow-x-hidden">
+      <CosmicBackground />
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={activeTab}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.2 }}
+        >
+          {renderScreen()}
+        </motion.div>
+      </AnimatePresence>
+      <BottomNav active={activeTab} onNavigate={setActiveTab} />
     </div>
   );
 };
