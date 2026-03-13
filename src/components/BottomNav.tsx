@@ -1,4 +1,4 @@
-import { Home, Trophy, Rss, User } from "lucide-react";
+import { Home, Trophy, Rss, User, BarChart3 } from "lucide-react";
 import { motion } from "framer-motion";
 
 interface BottomNavProps {
@@ -8,6 +8,7 @@ interface BottomNavProps {
 
 const tabs = [
   { id: "home", icon: Home, label: "Home" },
+  { id: "stats", icon: BarChart3, label: "Stats" },
   { id: "league", icon: Trophy, label: "League" },
   { id: "feed", icon: Rss, label: "Feed" },
   { id: "profile", icon: User, label: "Profile" },
