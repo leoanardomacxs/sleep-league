@@ -2,6 +2,7 @@ import { useState } from "react";
 import BottomNav from "../components/BottomNav";
 import CosmicBackground from "../components/CosmicBackground";
 import HomeScreen from "../screens/HomeScreen";
+import StatsScreen from "../screens/StatsScreen";
 import LeagueScreen from "../screens/LeagueScreen";
 import FeedScreen from "../screens/FeedScreen";
 import ProfileScreen from "../screens/ProfileScreen";
