@@ -167,11 +167,7 @@ const StatsScreen = () => {
         </div>
         <div className="h-40">
           <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={chartData} onClick={(data) => {
-              if (data?.activePayload?.[0]) {
-                setSelectedNight(data.activePayload[0].payload.full);
-              }
-            }}>
+            <BarChart data={chartData}>
               <CartesianGrid strokeDasharray="3 3" stroke="hsl(240 5% 15%)" vertical={false} />
               <XAxis
                 dataKey="day"

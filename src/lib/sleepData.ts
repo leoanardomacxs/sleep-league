@@ -53,7 +53,6 @@ export function generateSleepHistory(days: number): SleepNight[] {
     const wakeHour = Math.floor(baseWakeHour);
     const wakeMin = Math.floor((baseWakeHour % 1) * 60);
 
-    const hoursSlept = parseFloat((baseWakeHour + (baseSleepHour > 23 ? 24 - baseSleepHour : 0) + (baseSleepHour <= 23 ? 24 - baseSleepHour : 0) + baseWakeHour).toFixed(1));
     const actualHours = parseFloat((baseWakeHour - baseSleepHour + 24).toFixed(1)) % 24 || parseFloat(((isWeekend ? 8.5 : 7.5) + (Math.random() - 0.5)).toFixed(1));
 
     const cycles = Math.floor(actualHours / 1.5);
