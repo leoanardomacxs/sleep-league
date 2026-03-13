@@ -16,6 +16,7 @@ const Index = () => {
   const renderScreen = () => {
     switch (activeTab) {
       case "home": return <HomeScreen />;
+      case "stats": return <StatsScreen />;
       case "league": return <LeagueScreen />;
       case "feed": return <FeedScreen />;
       case "profile": return <ProfileScreen />;
