@@ -1,6 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { Instagram, X, Share2, Download } from "lucide-react";
-import { useRef } from "react";
+import { Instagram, X } from "lucide-react";
 
 interface ShareToStoriesProps {
   visible: boolean;
