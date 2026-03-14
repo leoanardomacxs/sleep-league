@@ -1,7 +1,9 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { Crown, ChevronRight } from "lucide-react";
-import { RANK_TIERS, getRankByName, getRankForSp } from "@/lib/ranks";
+import { RANK_TIERS, getRankForSp } from "@/lib/ranks";
+import FriendProfileModal from "@/components/FriendProfileModal";
+import InviteFriends from "@/components/InviteFriends";
 
 const tabs = ["Friends", "Global"];
 
@@ -19,6 +21,7 @@ const leaderboardData = [
 const LeagueScreen = () => {
   const [activeTab, setActiveTab] = useState("Friends");
   const [expandedRank, setExpandedRank] = useState<string | null>(null);
+  const [selectedFriend, setSelectedFriend] = useState<typeof leaderboardData[0] | null>(null);
 
   return (
     <div className="relative z-10 px-5 pt-14 pb-24 max-w-md mx-auto">
@@ -43,6 +46,9 @@ const LeagueScreen = () => {
           </button>
         ))}
       </div>
+
+      {/* Invite Friends */}
+      <InviteFriends />
 
       {/* Rank tiers legend */}
       <motion.div
@@ -71,10 +77,7 @@ const LeagueScreen = () => {
             className="mt-3 grid grid-cols-3 gap-2"
           >
             {RANK_TIERS.map((tier) => (
-              <div
-                key={tier.name}
-                className="flex items-center gap-1.5 py-1"
-              >
+              <div key={tier.name} className="flex items-center gap-1.5 py-1">
                 <span className="text-sm">{tier.symbol}</span>
                 <span
                   className="text-[10px] font-ui font-bold"
@@ -102,6 +105,7 @@ const LeagueScreen = () => {
                 user.isUser ? "ring-1" : ""
               }`}
               style={user.isUser ? { borderColor: `${userRank.colors.gradientFrom}40` } : {}}
+              onClick={() => !user.isUser && setSelectedFriend(user)}
             >
               {/* Position */}
               <div className="w-6 flex items-center justify-center">
@@ -124,7 +128,7 @@ const LeagueScreen = () => {
                 )}
               </div>
 
-              {/* Avatar with rank color ring */}
+              {/* Avatar */}
               <div
                 className="w-9 h-9 rounded-full flex items-center justify-center"
                 style={{
@@ -132,9 +136,7 @@ const LeagueScreen = () => {
                   boxShadow: `0 0 0 2px ${userRank.colors.gradientFrom}50`,
                 }}
               >
-                <span className="text-sm font-display text-foreground">
-                  {user.name[0]}
-                </span>
+                <span className="text-sm font-display text-foreground">{user.name[0]}</span>
               </div>
 
               {/* Info */}
@@ -167,6 +169,12 @@ const LeagueScreen = () => {
           );
         })}
       </div>
+
+      {/* Friend Profile Modal */}
+      <FriendProfileModal
+        friend={selectedFriend}
+        onClose={() => setSelectedFriend(null)}
+      />
     </div>
   );
 };
