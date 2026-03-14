@@ -22,7 +22,7 @@ const ShareToStories = ({
   gradientFrom,
   gradientTo,
 }: ShareToStoriesProps) => {
-  const cardRef = useRef<HTMLDivElement>(null);
+  
 
   const shareToInstagram = () => {
     // In a real app, this would generate an image and open Instagram stories
