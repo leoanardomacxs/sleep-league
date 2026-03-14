@@ -59,7 +59,6 @@ const ShareToStories = ({
 
             {/* Story Card Preview */}
             <div
-              ref={cardRef}
               className="w-full aspect-[9/16] rounded-3xl p-8 flex flex-col items-center justify-center text-center relative overflow-hidden"
               style={{
                 background: `linear-gradient(180deg, ${gradientFrom}20, hsl(var(--background)))`,
