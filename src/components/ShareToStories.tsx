@@ -15,7 +15,7 @@ interface ShareToStoriesProps {
 const ShareToStories = ({
   visible,
   onClose,
-  type,
+  type: _type,
   title,
   subtitle,
   emoji,
