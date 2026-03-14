@@ -7,11 +7,17 @@ import LeagueScreen from "../screens/LeagueScreen";
 import FeedScreen from "../screens/FeedScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import RankChangeModal from "../components/RankChangeModal";
+import Login from "./Login";
 import { AnimatePresence, motion } from "framer-motion";
 import { RankProvider } from "@/contexts/RankContext";
 
 const Index = () => {
   const [activeTab, setActiveTab] = useState("home");
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  if (!isLoggedIn) {
+    return <Login onLogin={() => setIsLoggedIn(true)} />;
+  }
 
   const renderScreen = () => {
     switch (activeTab) {
