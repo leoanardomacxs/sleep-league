@@ -19,7 +19,6 @@ const leaderboardData = [
 ];
 
 const LeagueScreen = () => {
-  const [activeTab, setActiveTab] = useState("Friends");
   const [expandedRank, setExpandedRank] = useState<string | null>(null);
   const [selectedFriend, setSelectedFriend] = useState<typeof leaderboardData[0] | null>(null);
 
@@ -27,26 +26,8 @@ const LeagueScreen = () => {
     <div className="relative z-10 px-5 pt-14 pb-24 max-w-md mx-auto">
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
         <h1 className="text-2xl font-display text-foreground mb-1">Sleep League</h1>
-        <p className="text-sm text-muted-foreground font-body mb-6">This week's rankings</p>
+        <p className="text-sm text-muted-foreground font-body mb-6">Rankings dos seus amigos</p>
       </motion.div>
-
-      {/* Tabs */}
-      <div className="flex bg-surface rounded-xl p-1 mb-6">
-        {tabs.map((tab) => (
-          <button
-            key={tab}
-            onClick={() => setActiveTab(tab)}
-            className={`flex-1 py-2.5 rounded-lg text-sm font-ui transition-all duration-200 ${
-              activeTab === tab
-                ? "bg-surface-elevated text-foreground"
-                : "text-muted-foreground"
-            }`}
-          >
-            {tab}
-          </button>
-        ))}
-      </div>
-
       {/* Invite Friends */}
       <InviteFriends />
 
