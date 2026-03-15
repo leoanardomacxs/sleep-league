@@ -5,7 +5,7 @@ import { RANK_TIERS, getRankForSp } from "@/lib/ranks";
 import FriendProfileModal from "@/components/FriendProfileModal";
 import InviteFriends from "@/components/InviteFriends";
 
-const tabs = ["Friends", "Global"];
+
 
 const leaderboardData = [
   { rank: 1, name: "Luna", score: 96, sp: 4210 },
