@@ -14,16 +14,259 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      achievements: {
+        Row: {
+          category: string | null
+          created_at: string
+          description: string | null
+          icon: string | null
+          id: string
+          name: string
+          requirement_type: string
+          requirement_value: number
+          sp_reward: number | null
+        }
+        Insert: {
+          category?: string | null
+          created_at?: string
+          description?: string | null
+          icon?: string | null
+          id?: string
+          name: string
+          requirement_type: string
+          requirement_value: number
+          sp_reward?: number | null
+        }
+        Update: {
+          category?: string | null
+          created_at?: string
+          description?: string | null
+          icon?: string | null
+          id?: string
+          name?: string
+          requirement_type?: string
+          requirement_value?: number
+          sp_reward?: number | null
+        }
+        Relationships: []
+      }
+      friendships: {
+        Row: {
+          created_at: string
+          friend_id: string
+          id: string
+          status: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          friend_id: string
+          id?: string
+          status?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          friend_id?: string
+          id?: string
+          status?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          bio: string | null
+          created_at: string
+          display_name: string | null
+          id: string
+          preferred_bedtime: string | null
+          preferred_waketime: string | null
+          sleep_goal_hours: number | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          bio?: string | null
+          created_at?: string
+          display_name?: string | null
+          id?: string
+          preferred_bedtime?: string | null
+          preferred_waketime?: string | null
+          sleep_goal_hours?: number | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          avatar_url?: string | null
+          bio?: string | null
+          created_at?: string
+          display_name?: string | null
+          id?: string
+          preferred_bedtime?: string | null
+          preferred_waketime?: string | null
+          sleep_goal_hours?: number | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      sleep_sessions: {
+        Row: {
+          awake_minutes: number | null
+          created_at: string
+          deep_sleep_minutes: number | null
+          duration_minutes: number | null
+          id: string
+          light_sleep_minutes: number | null
+          notes: string | null
+          phone_before_bed: boolean | null
+          rem_sleep_minutes: number | null
+          score: number | null
+          sleep_end: string | null
+          sleep_start: string
+          sp_earned: number | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          awake_minutes?: number | null
+          created_at?: string
+          deep_sleep_minutes?: number | null
+          duration_minutes?: number | null
+          id?: string
+          light_sleep_minutes?: number | null
+          notes?: string | null
+          phone_before_bed?: boolean | null
+          rem_sleep_minutes?: number | null
+          score?: number | null
+          sleep_end?: string | null
+          sleep_start: string
+          sp_earned?: number | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          awake_minutes?: number | null
+          created_at?: string
+          deep_sleep_minutes?: number | null
+          duration_minutes?: number | null
+          id?: string
+          light_sleep_minutes?: number | null
+          notes?: string | null
+          phone_before_bed?: boolean | null
+          rem_sleep_minutes?: number | null
+          score?: number | null
+          sleep_end?: string | null
+          sleep_start?: string
+          sp_earned?: number | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      streaks: {
+        Row: {
+          current_streak: number | null
+          id: string
+          last_good_night: string | null
+          longest_streak: number | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          current_streak?: number | null
+          id?: string
+          last_good_night?: string | null
+          longest_streak?: number | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          current_streak?: number | null
+          id?: string
+          last_good_night?: string | null
+          longest_streak?: number | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_achievements: {
+        Row: {
+          achievement_id: string
+          earned_at: string
+          id: string
+          user_id: string
+        }
+        Insert: {
+          achievement_id: string
+          earned_at?: string
+          id?: string
+          user_id: string
+        }
+        Update: {
+          achievement_id?: string
+          earned_at?: string
+          id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_achievements_achievement_id_fkey"
+            columns: ["achievement_id"]
+            isOneToOne: false
+            referencedRelation: "achievements"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_roles: {
+        Row: {
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_friends_leaderboard: {
+        Args: { _user_id: string }
+        Returns: {
+          avatar_url: string
+          avg_score: number
+          current_streak: number
+          display_name: string
+          friend_id: string
+          total_sp: number
+        }[]
+      }
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "moderator" | "user"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +393,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "moderator", "user"],
+    },
   },
 } as const
