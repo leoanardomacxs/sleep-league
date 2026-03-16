@@ -1,23 +1,19 @@
 import { motion } from "framer-motion";
-import { Shield } from "lucide-react";
+import { Beaker } from "lucide-react";
 import { useRank } from "@/contexts/RankContext";
 import { RANK_TIERS } from "@/lib/ranks";
+import RankIcon from "./RankIcon";
 
 const RankSimulator = () => {
   const { sp, simulateRankChange, rank } = useRank();
-
   const quickJumps = RANK_TIERS.filter((t) => t.name !== rank.name).slice(0, 6);
 
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ delay: 0.3 }}
-      className="card-dormio p-4"
-    >
-      <p className="text-xs font-ui text-muted-foreground uppercase mb-3">
-        🧪 Simulate Rank (Demo)
-      </p>
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }} className="card-dormio p-4">
+      <div className="flex items-center gap-2 mb-3">
+        <Beaker size={14} className="text-muted-foreground" />
+        <p className="text-xs font-ui text-muted-foreground uppercase">Simular Rank (Demo)</p>
+      </div>
       <div className="flex flex-wrap gap-2">
         {quickJumps.map((tier) => (
           <button
@@ -30,7 +26,7 @@ const RankSimulator = () => {
               border: `1px solid ${tier.colors.gradientFrom}30`,
             }}
           >
-            <span>{tier.symbol}</span>
+            <RankIcon rank={tier} size={12} />
             {tier.name}
           </button>
         ))}
