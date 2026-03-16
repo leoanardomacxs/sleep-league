@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
-import { X, Moon, Sun, Smartphone, SmartphoneOff, Loader2, NotebookPen } from "lucide-react";
+import { X, Moon, Sun, Smartphone, Loader2, NotebookPen } from "lucide-react";
 import { useLogSleep } from "@/hooks/useSleepData";
 import { toast } from "sonner";
 
