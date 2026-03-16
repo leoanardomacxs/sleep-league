@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Moon, Sun, Clock, Zap, Flame, Target, TrendingUp, Activity, Minus } from "lucide-react";
+import { X, Zap, Flame, Target, Minus } from "lucide-react";
 import { getRankForSp } from "@/lib/ranks";
 import RankIcon from "./RankIcon";
 

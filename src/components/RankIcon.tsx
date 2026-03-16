@@ -1,4 +1,4 @@
-import { RANK_TIERS, type RankTier } from "@/lib/ranks";
+import { type RankTier } from "@/lib/ranks";
 
 interface RankIconProps {
   rank: RankTier;

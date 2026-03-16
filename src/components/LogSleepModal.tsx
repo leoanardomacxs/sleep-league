@@ -119,7 +119,7 @@ const LogSleepModal = ({ isOpen, onClose }: LogSleepModalProps) => {
                 {phoneBefore ? (
                   <Smartphone size={18} className="text-destructive" />
                 ) : (
-                  <SmartphoneOff size={18} className="text-accent" />
+                  <Smartphone size={18} className="text-accent" />
                 )}
                 <div className="text-left flex-1">
                   <p className="text-sm font-display text-foreground">

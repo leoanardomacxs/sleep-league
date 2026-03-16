@@ -20,7 +20,7 @@ const PointsBreakdown = ({ session }: PointsBreakdownProps) => {
     { label: "Duracao", points: session ? durationPts : null, icon: Clock },
     { label: "Ciclos", points: session ? cyclePts : null, icon: Zap },
     { label: "Consistencia", points: session ? consistencyPts : null, icon: TrendingUp },
-    { label: "Sem Celular", points: session ? phonePts : null, icon: SmartphoneOff },
+    { label: "Sem Celular", points: session ? phonePts : null, icon: Smartphone },
   ];
 
   return (
