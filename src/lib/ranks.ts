@@ -1,20 +1,24 @@
+import { Skull, AlertTriangle, CloudMoon, Scale, Leaf, Waves, Music, Moon, Sparkles, Diamond, Eye, type LucideIcon } from "lucide-react";
+
 export interface RankTier {
   name: string;
-  symbol: string;
+  iconName: string;
+  icon: LucideIcon;
   minSp: number;
   colors: {
-    primary: string;      // HSL values for CSS var
+    primary: string;
     accent: string;
-    glow: string;         // CSS color for glows
-    gradientFrom: string; // CSS color
-    gradientTo: string;   // CSS color
+    glow: string;
+    gradientFrom: string;
+    gradientTo: string;
   };
 }
 
 export const RANK_TIERS: RankTier[] = [
   {
     name: "Chaotic",
-    symbol: "💀",
+    iconName: "Skull",
+    icon: Skull,
     minSp: 0,
     colors: {
       primary: "0 60% 45%",
@@ -26,7 +30,8 @@ export const RANK_TIERS: RankTier[] = [
   },
   {
     name: "Unstable",
-    symbol: "⚠️",
+    iconName: "AlertTriangle",
+    icon: AlertTriangle,
     minSp: 300,
     colors: {
       primary: "20 85% 50%",
@@ -38,7 +43,8 @@ export const RANK_TIERS: RankTier[] = [
   },
   {
     name: "Drowsy",
-    symbol: "😴",
+    iconName: "CloudMoon",
+    icon: CloudMoon,
     minSp: 700,
     colors: {
       primary: "40 80% 50%",
@@ -50,7 +56,8 @@ export const RANK_TIERS: RankTier[] = [
   },
   {
     name: "Balanced",
-    symbol: "⚖️",
+    iconName: "Scale",
+    icon: Scale,
     minSp: 1200,
     colors: {
       primary: "140 55% 45%",
@@ -62,7 +69,8 @@ export const RANK_TIERS: RankTier[] = [
   },
   {
     name: "Restored",
-    symbol: "🌿",
+    iconName: "Leaf",
+    icon: Leaf,
     minSp: 1700,
     colors: {
       primary: "160 65% 45%",
@@ -74,7 +82,8 @@ export const RANK_TIERS: RankTier[] = [
   },
   {
     name: "Zen",
-    symbol: "🧘",
+    iconName: "Waves",
+    icon: Waves,
     minSp: 2100,
     colors: {
       primary: "200 70% 55%",
@@ -86,7 +95,8 @@ export const RANK_TIERS: RankTier[] = [
   },
   {
     name: "Harmonic",
-    symbol: "🎵",
+    iconName: "Music",
+    icon: Music,
     minSp: 2500,
     colors: {
       primary: "240 70% 65%",
@@ -98,7 +108,8 @@ export const RANK_TIERS: RankTier[] = [
   },
   {
     name: "Dreamer",
-    symbol: "🌙",
+    iconName: "Moon",
+    icon: Moon,
     minSp: 2800,
     colors: {
       primary: "265 80% 65%",
@@ -110,7 +121,8 @@ export const RANK_TIERS: RankTier[] = [
   },
   {
     name: "Astral",
-    symbol: "✨",
+    iconName: "Sparkles",
+    icon: Sparkles,
     minSp: 3200,
     colors: {
       primary: "265 100% 70%",
@@ -122,7 +134,8 @@ export const RANK_TIERS: RankTier[] = [
   },
   {
     name: "Lucid",
-    symbol: "💎",
+    iconName: "Diamond",
+    icon: Diamond,
     minSp: 4000,
     colors: {
       primary: "280 100% 75%",
@@ -134,7 +147,8 @@ export const RANK_TIERS: RankTier[] = [
   },
   {
     name: "Nirvana",
-    symbol: "👁️",
+    iconName: "Eye",
+    icon: Eye,
     minSp: 5000,
     colors: {
       primary: "45 100% 65%",
