@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Clock, Zap, TrendingUp, SmartphoneOff, Minus } from "lucide-react";
+import { Clock, Zap, TrendingUp, Smartphone, Minus } from "lucide-react";
 import type { SleepSession } from "@/hooks/useSleepData";
 
 interface PointsBreakdownProps {
