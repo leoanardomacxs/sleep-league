@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { AlarmClock, Plus, Moon } from "lucide-react";
 import SleepScoreRing from "../components/SleepScoreRing";
 import PointsBreakdown from "../components/PointsBreakdown";
@@ -9,8 +9,10 @@ import WakeUpModal from "../components/WakeUpModal";
 import LogSleepModal from "../components/LogSleepModal";
 import EmptyState from "../components/EmptyState";
 import RankIcon from "../components/RankIcon";
+import SleepDetectionBanner from "../components/SleepDetectionBanner";
 import { useRank } from "@/contexts/RankContext";
 import { useLastNight, useStreak } from "@/hooks/useSleepData";
+import { useSleepDetection } from "@/hooks/useSleepDetection";
 
 const HomeScreen = () => {
   const [showWakeUp, setShowWakeUp] = useState(false);
