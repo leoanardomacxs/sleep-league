@@ -20,6 +20,7 @@ const HomeScreen = () => {
   const { rank, sp, nextRank } = useRank();
   const { data: lastNight, isLoading } = useLastNight();
   const { data: streak } = useStreak();
+  const { estimate, isVisible: showDetection, confirm: confirmDetection, dismiss: dismissDetection } = useSleepDetection();
 
   const score = lastNight?.score || 0;
   const hasData = !!lastNight;
