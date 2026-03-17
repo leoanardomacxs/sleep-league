@@ -32,7 +32,7 @@ export const RANK_TIERS: RankTier[] = [
     name: "Unstable",
     iconName: "AlertTriangle",
     icon: AlertTriangle,
-    minSp: 300,
+    minSp: 250,
     colors: {
       primary: "20 85% 50%",
       accent: "35 90% 55%",
@@ -45,7 +45,7 @@ export const RANK_TIERS: RankTier[] = [
     name: "Drowsy",
     iconName: "CloudMoon",
     icon: CloudMoon,
-    minSp: 700,
+    minSp: 500,
     colors: {
       primary: "40 80% 50%",
       accent: "55 75% 55%",
@@ -97,7 +97,7 @@ export const RANK_TIERS: RankTier[] = [
     name: "Harmonic",
     iconName: "Music",
     icon: Music,
-    minSp: 2500,
+    minSp: 2900,
     colors: {
       primary: "240 70% 65%",
       accent: "260 65% 60%",
@@ -107,10 +107,10 @@ export const RANK_TIERS: RankTier[] = [
     },
   },
   {
-    name: "Dreamer",
+    name: "Sleeper",
     iconName: "Moon",
     icon: Moon,
-    minSp: 2800,
+    minSp: 4100,
     colors: {
       primary: "265 80% 65%",
       accent: "285 70% 60%",
@@ -123,7 +123,7 @@ export const RANK_TIERS: RankTier[] = [
     name: "Astral",
     iconName: "Sparkles",
     icon: Sparkles,
-    minSp: 3200,
+    minSp: 4700,
     colors: {
       primary: "265 100% 70%",
       accent: "190 100% 65%",
@@ -133,31 +133,20 @@ export const RANK_TIERS: RankTier[] = [
     },
   },
   {
-    name: "Lucid",
-    iconName: "Diamond",
-    icon: Diamond,
-    minSp: 4000,
-    colors: {
-      primary: "280 100% 75%",
-      accent: "320 80% 70%",
-      glow: "hsl(280 100% 75%)",
-      gradientFrom: "hsl(280 100% 75%)",
-      gradientTo: "hsl(320 80% 70%)",
-    },
+    name: "Dreamer",
+iconName: "Diamond",
+icon: Diamond,
+minSp: 5200,
+colors: {
+  primary: "300 100% 68%",     // rosa neon forte
+  accent: "270 100% 72%",      // roxo onírico
+  glow: "hsl(300 100% 68%)",
+  gradientFrom: "hsl(300 100% 68%)",
+  gradientTo: "hsl(270 100% 72%)",
+},
   },
-  {
-    name: "Nirvana",
-    iconName: "Eye",
-    icon: Eye,
-    minSp: 5000,
-    colors: {
-      primary: "45 100% 65%",
-      accent: "30 100% 60%",
-      glow: "hsl(45 100% 65%)",
-      gradientFrom: "hsl(45 100% 65%)",
-      gradientTo: "hsl(30 100% 60%)",
-    },
-  },
+  
+    
 ];
 
 export function getRankForSp(sp: number): RankTier {

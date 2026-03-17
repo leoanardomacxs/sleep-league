@@ -17,10 +17,9 @@ function getPulseBehavior(rankName: string): Behavior {
     Restored: { base: 2.5, variance: 0.4, smoothness: 0.8, density: 4 },
     Zen: { base: 2.8, variance: 0.3, smoothness: 0.9, density: 4 },
     Harmonic: { base: 3.0, variance: 0.25, smoothness: 0.95, density: 4 },
-    Dreamer: { base: 3.2, variance: 0.2, smoothness: 1, density: 3 },
     Astral: { base: 3.5, variance: 0.15, smoothness: 1, density: 3 },
     Lucid: { base: 3.8, variance: 0.1, smoothness: 1, density: 3 },
-    Nirvana: { base: 4.2, variance: 0, smoothness: 1, density: 1 },
+    Dreamer: { base: 8.2, variance: 0.7, smoothness: 3, density: 3 },
   };
 
   return map[rankName] || map["Chaotic"];
