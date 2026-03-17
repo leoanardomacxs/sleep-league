@@ -59,6 +59,19 @@ const HomeScreen = () => {
         </div>
       </motion.div>
 
+      {/* Sleep Detection Banner */}
+      <AnimatePresence>
+        {showDetection && estimate && (
+          <div className="mb-6">
+            <SleepDetectionBanner
+              estimate={estimate}
+              onConfirm={confirmDetection}
+              onDismiss={dismissDetection}
+            />
+          </div>
+        )}
+      </AnimatePresence>
+
       {/* Score Ring or Empty State */}
       {isLoading ? (
         <div className="flex justify-center mb-8">
