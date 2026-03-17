@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { AlarmClock, Plus, Moon } from "lucide-react";
+
 import SleepScoreRing from "../components/SleepScoreRing";
 import PointsBreakdown from "../components/PointsBreakdown";
 import StreakBadge from "../components/StreakBadge";
@@ -10,20 +11,44 @@ import LogSleepModal from "../components/LogSleepModal";
 import EmptyState from "../components/EmptyState";
 import RankIcon from "../components/RankIcon";
 import SleepDetectionBanner from "../components/SleepDetectionBanner";
+
 import { useRank } from "@/contexts/RankContext";
-import { useLastNight, useStreak } from "@/hooks/useSleepData";
+import { useLogSleep, useLastNight, useStreak } from "@/hooks/useSleepData"; // ✅ corrigido
 import { useSleepDetection } from "@/hooks/useSleepDetection";
 
 const HomeScreen = () => {
   const [showWakeUp, setShowWakeUp] = useState(false);
   const [showLogSleep, setShowLogSleep] = useState(false);
+  const [autoOpened, setAutoOpened] = useState(false);
+
   const { rank, sp, nextRank } = useRank();
+
+  // ✅ corrigido
   const { data: lastNight, isLoading } = useLastNight();
   const { data: streak } = useStreak();
-  const { estimate, isVisible: showDetection, confirm: confirmDetection, dismiss: dismissDetection } = useSleepDetection();
+
+  const createSleep = useLogSleep();
+
+  const {
+    estimate,
+    isVisible: showDetection,
+    dismiss: dismissDetection,
+  } = useSleepDetection();
 
   const score = lastNight?.score || 0;
   const hasData = !!lastNight;
+
+  // 🔥 AGORA NÃO SALVA DUPLICADO (banner já salva)
+  const handleConfirmDetection = () => {
+    dismissDetection();
+  };
+
+  useEffect(() => {
+    if (showDetection && estimate && !autoOpened) {
+      setShowLogSleep(true);
+      setAutoOpened(true);
+    }
+  }, [showDetection, estimate, autoOpened]);
 
   return (
     <div className="relative z-10 px-5 pt-14 pb-24 max-w-md mx-auto">
@@ -38,14 +63,22 @@ const HomeScreen = () => {
           <p className="text-sm text-muted-foreground font-ui">Bom dia</p>
           <h1 className="text-2xl font-display text-foreground">Noite Passada</h1>
         </div>
+
         <div className="text-right">
           <div className="flex items-center gap-1.5 justify-end mb-0.5">
             <RankIcon rank={rank} size={14} />
-            <span className="text-xs font-ui font-bold" style={{ color: rank.colors.gradientFrom }}>
+            <span
+              className="text-xs font-ui font-bold"
+              style={{ color: rank.colors.gradientFrom }}
+            >
               {rank.name}
             </span>
           </div>
-          <p className="text-xs text-muted-foreground font-ui uppercase">Total SP</p>
+
+          <p className="text-xs text-muted-foreground font-ui uppercase">
+            Total SP
+          </p>
+
           <p
             className="text-lg font-display tabular-nums"
             style={{
@@ -59,20 +92,20 @@ const HomeScreen = () => {
         </div>
       </motion.div>
 
-      {/* Sleep Detection Banner */}
+      {/* DETECÇÃO DE SONO */}
       <AnimatePresence>
         {showDetection && estimate && (
           <div className="mb-6">
             <SleepDetectionBanner
               estimate={estimate}
-              onConfirm={confirmDetection}
+              onConfirm={handleConfirmDetection}
               onDismiss={dismissDetection}
             />
           </div>
         )}
       </AnimatePresence>
 
-      {/* Score Ring or Empty State */}
+      {/* Score ou estado vazio */}
       {isLoading ? (
         <div className="flex justify-center mb-8">
           <div className="w-[220px] h-[220px] rounded-full bg-surface-elevated animate-pulse" />
@@ -98,7 +131,10 @@ const HomeScreen = () => {
             icon={Moon}
             title="Nenhum dado de sono"
             description="Registre sua primeira noite de sono para ver seu score e acumular SP."
-            action={{ label: "Registrar Sono", onClick: () => setShowLogSleep(true) }}
+            action={{
+              label: "Registrar Sono",
+              onClick: () => setShowLogSleep(true),
+            }}
             gradientFrom={rank.colors.gradientFrom}
             gradientTo={rank.colors.gradientTo}
           />
@@ -116,7 +152,7 @@ const HomeScreen = () => {
         />
       </div>
 
-      {/* Action Buttons */}
+      {/* Botões */}
       <div className="flex gap-3">
         <motion.button
           initial={{ opacity: 0, y: 20 }}
@@ -145,8 +181,15 @@ const HomeScreen = () => {
         </motion.button>
       </div>
 
-      <WakeUpModal isOpen={showWakeUp} onClose={() => setShowWakeUp(false)} />
-      <LogSleepModal isOpen={showLogSleep} onClose={() => setShowLogSleep(false)} />
+      <WakeUpModal
+        isOpen={showWakeUp}
+        onClose={() => setShowWakeUp(false)}
+      />
+
+      <LogSleepModal
+        isOpen={showLogSleep}
+        onClose={() => setShowLogSleep(false)}
+      />
     </div>
   );
 };

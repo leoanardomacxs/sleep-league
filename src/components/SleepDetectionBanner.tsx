@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Moon, Sun, Check, X, ChevronDown, ChevronUp, Clock, Sparkles } from "lucide-react";
 import { useLogSleep } from "@/hooks/useSleepData";
@@ -23,11 +23,17 @@ function formatDuration(minutes: number): string {
 
 const SleepDetectionBanner = ({ estimate, onConfirm, onDismiss }: SleepDetectionBannerProps) => {
   const [expanded, setExpanded] = useState(false);
-  const [sleepTime, setSleepTime] = useState(formatTime(estimate.sleepStart));
-  const [wakeTime, setWakeTime] = useState(formatTime(estimate.sleepEnd));
+  const [sleepTime, setSleepTime] = useState("");
+  const [wakeTime, setWakeTime] = useState("");
   const [phoneBefore, setPhoneBefore] = useState(false);
 
   const logSleep = useLogSleep();
+
+  // 🔥 ATUALIZA OS INPUTS SEMPRE QUE O ESTIMATE MUDAR
+  useEffect(() => {
+    setSleepTime(formatTime(estimate.sleepStart));
+    setWakeTime(formatTime(estimate.sleepEnd));
+  }, [estimate]);
 
   const confidenceLabel = {
     high: "Alta precisão",
@@ -42,7 +48,6 @@ const SleepDetectionBanner = ({ estimate, onConfirm, onDismiss }: SleepDetection
   };
 
   const handleConfirm = async () => {
-    const now = new Date();
     const [sh, sm] = sleepTime.split(":").map(Number);
     const [wh, wm] = wakeTime.split(":").map(Number);
 
@@ -52,6 +57,7 @@ const SleepDetectionBanner = ({ estimate, onConfirm, onDismiss }: SleepDetection
     const sleepEnd = new Date(estimate.sleepEnd);
     sleepEnd.setHours(wh, wm, 0, 0);
 
+    // 🔥 CORREÇÃO: vira o dia automaticamente
     if (sleepEnd <= sleepStart) {
       sleepEnd.setDate(sleepEnd.getDate() + 1);
     }
@@ -74,7 +80,6 @@ const SleepDetectionBanner = ({ estimate, onConfirm, onDismiss }: SleepDetection
       className="relative overflow-hidden rounded-2xl border border-border bg-card"
       style={{ boxShadow: "var(--shadow-card)" }}
     >
-      {/* Subtle glow accent */}
       <div
         className="absolute top-0 left-0 right-0 h-px"
         style={{ background: "var(--gradient-primary)" }}
@@ -86,12 +91,14 @@ const SleepDetectionBanner = ({ estimate, onConfirm, onDismiss }: SleepDetection
           <div className="w-10 h-10 rounded-xl bg-primary/15 flex items-center justify-center flex-shrink-0 mt-0.5">
             <Sparkles size={18} className="text-primary" />
           </div>
+
           <div className="flex-1 min-w-0">
             <p className="text-sm font-display text-foreground">Sono detectado</p>
             <p className="text-xs text-muted-foreground font-body mt-0.5">
               Parece que você dormiu {formatDuration(estimate.durationMinutes)}
             </p>
           </div>
+
           <button
             onClick={onDismiss}
             className="w-7 h-7 rounded-full bg-surface-elevated flex items-center justify-center flex-shrink-0"
@@ -100,7 +107,7 @@ const SleepDetectionBanner = ({ estimate, onConfirm, onDismiss }: SleepDetection
           </button>
         </div>
 
-        {/* Time summary */}
+        {/* Horários */}
         <div className="flex items-center gap-4 mt-4 px-1">
           <div className="flex items-center gap-2">
             <Moon size={14} className="text-primary" />
@@ -108,9 +115,14 @@ const SleepDetectionBanner = ({ estimate, onConfirm, onDismiss }: SleepDetection
               {formatTime(estimate.sleepStart)}
             </span>
           </div>
+
           <div className="flex-1 h-px bg-border relative">
-            <div className="absolute inset-0" style={{ background: "var(--gradient-primary)", opacity: 0.3 }} />
+            <div
+              className="absolute inset-0"
+              style={{ background: "var(--gradient-primary)", opacity: 0.3 }}
+            />
           </div>
+
           <div className="flex items-center gap-2">
             <Sun size={14} className="text-accent" />
             <span className="text-sm font-display text-foreground tabular-nums">
@@ -119,7 +131,7 @@ const SleepDetectionBanner = ({ estimate, onConfirm, onDismiss }: SleepDetection
           </div>
         </div>
 
-        {/* Confidence */}
+        {/* Confiança */}
         <div className="flex items-center gap-1.5 mt-3 px-1">
           <Clock size={11} className={confidenceColor[estimate.confidence]} />
           <span className={`text-[10px] font-ui uppercase tracking-wider ${confidenceColor[estimate.confidence]}`}>
@@ -127,7 +139,7 @@ const SleepDetectionBanner = ({ estimate, onConfirm, onDismiss }: SleepDetection
           </span>
         </div>
 
-        {/* Expand for editing */}
+        {/* Ajuste */}
         <AnimatePresence>
           {expanded && (
             <motion.div
@@ -148,9 +160,10 @@ const SleepDetectionBanner = ({ estimate, onConfirm, onDismiss }: SleepDetection
                       type="time"
                       value={sleepTime}
                       onChange={(e) => setSleepTime(e.target.value)}
-                      className="w-full text-lg font-display text-foreground bg-transparent focus:outline-none"
+                      className="w-full text-lg font-display bg-transparent focus:outline-none"
                     />
                   </div>
+
                   <div className="bg-surface rounded-xl p-3">
                     <div className="flex items-center gap-1.5 mb-1.5">
                       <Sun size={12} className="text-accent" />
@@ -160,18 +173,18 @@ const SleepDetectionBanner = ({ estimate, onConfirm, onDismiss }: SleepDetection
                       type="time"
                       value={wakeTime}
                       onChange={(e) => setWakeTime(e.target.value)}
-                      className="w-full text-lg font-display text-foreground bg-transparent focus:outline-none"
+                      className="w-full text-lg font-display bg-transparent focus:outline-none"
                     />
                   </div>
                 </div>
 
                 <button
                   onClick={() => setPhoneBefore(!phoneBefore)}
-                  className={`w-full bg-surface rounded-xl p-3 flex items-center gap-2 transition-all text-left ${
+                  className={`w-full bg-surface rounded-xl p-3 text-left ${
                     phoneBefore ? "ring-1 ring-destructive/30" : "ring-1 ring-accent/30"
                   }`}
                 >
-                  <span className="text-xs font-display text-foreground">
+                  <span className="text-xs font-display">
                     {phoneBefore ? "Usei celular antes" : "Não usei celular antes"}
                   </span>
                 </button>
@@ -180,7 +193,7 @@ const SleepDetectionBanner = ({ estimate, onConfirm, onDismiss }: SleepDetection
           )}
         </AnimatePresence>
 
-        {/* Actions */}
+        {/* Ações */}
         <div className="flex items-center gap-2 mt-4">
           <motion.button
             whileTap={{ scale: 0.97 }}
@@ -196,7 +209,7 @@ const SleepDetectionBanner = ({ estimate, onConfirm, onDismiss }: SleepDetection
           <motion.button
             whileTap={{ scale: 0.97 }}
             onClick={() => setExpanded(!expanded)}
-            className="h-11 px-4 rounded-xl bg-surface-elevated flex items-center justify-center gap-1.5 text-xs font-ui text-muted-foreground"
+            className="h-11 px-4 rounded-xl bg-surface-elevated flex items-center gap-1.5 text-xs font-ui text-muted-foreground"
           >
             {expanded ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
             Ajustar
