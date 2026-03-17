@@ -9,7 +9,7 @@ const RankSimulator = () => {
 
   const quickJumps = RANK_TIERS.filter(
     (t) => t.name !== rank.name
-  ).slice(0, 6);
+  ).slice(0, 11);
 
   return (
     <motion.div className="card-dormio p-4">

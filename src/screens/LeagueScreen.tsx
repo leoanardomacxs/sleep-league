@@ -50,19 +50,25 @@ const LeagueScreen = () => {
   const effectiveSp = simulatedSp ?? realSp;
 
   const getXpMessage = (tier: any) => {
-    if (effectiveSp === null) return "Carregando progresso...";
+  if (effectiveSp === null) return "Carregando progresso...";
 
-    if (effectiveSp < tier.minSp) {
-      return `Faltam ${(tier.minSp - effectiveSp).toLocaleString()} SP para chegar neste elo`;
-    }
+  const currentRank = getRankForSp(effectiveSp);
 
-    if (effectiveSp > tier.maxSp) {
-      return `Você precisaria perder ${(effectiveSp - tier.maxSp).toLocaleString()} SP para cair para este elo`;
-    }
-
+  // 🟢 mesmo elo
+  if (tier.name === currentRank.name) {
     return "Você está neste elo!";
-  };
+  }
 
+  // 🔵 elo acima
+  if (effectiveSp < tier.minSp) {
+    const diff = tier.minSp - effectiveSp;
+    return `Faltam ${diff.toLocaleString()} SP para chegar neste elo`;
+  }
+
+  // 🔴 elo abaixo
+  const diff = effectiveSp - tier.minSp;
+  return `Esse elo está abaixo do seu em ${diff.toLocaleString()} SP`;
+};
   return (
     <div className="relative z-10 px-5 pt-14 pb-24 max-w-md mx-auto">
 
@@ -106,9 +112,9 @@ const LeagueScreen = () => {
               initial={{ height: 0, opacity: 0 }}
               animate={{ height: "auto", opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
-              className="mt-3 grid grid-cols-3 gap-2 overflow-hidden"
+              className="mt-3 flex flex-col gap-2 max-h-64 overflow-y-auto pr-1"
             >
-              {RANK_TIERS.map((tier) => (
+              {[...RANK_TIERS].reverse().map((tier, index) => (
                 <motion.div
                   key={tier.name}
                   whileTap={{ scale: 0.95 }}
